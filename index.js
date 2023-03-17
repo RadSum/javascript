@@ -55,30 +55,39 @@ class SnakeHead extends SnakePart {
 }
 
 let direction = "right";
+let lastDirection = "";
 document.addEventListener("keydown", event => {
     switch(event.key) {
         case "ArrowUp":
         case "w":
-            if (direction != "down") {
+            if (direction != "down" && direction !== "stop") {
                 direction = "up";
             }
             break;
         case "ArrowLeft":
         case "a":
-            if (direction != "right") {
+            if (direction != "right" && direction !== "stop") {
                 direction = "left";
             }
             break;
         case "ArrowDown":
         case "s":
-            if (direction != "up") {
+            if (direction != "up" && direction !== "stop") {
                 direction = "down";
             }
             break;
         case "ArrowRight":
         case "d":
-            if (direction != "left") {
+            if (direction != "left" && direction !== "stop") {
                 direction = "right";
+            }
+            break;
+        case " ":
+            if (direction === "stop") {
+                direction = lastDirection;
+            } else {
+                lastDirection = direction;
+                direction = "stop";
             }
             break;
         default:
@@ -112,6 +121,8 @@ const interval = setInterval(() => {
                 case "down":
                     snakePart.py += SIZE;
                     break;
+                case "stop":
+                    break;
             }
 
             if (snakePart.checkFoodCollision()) {
@@ -131,6 +142,7 @@ const interval = setInterval(() => {
                 }
             }
         } else {
+            if (direction === "stop") return;
             const {prevPosX: px, prevPosY: py} = snakeArray[index - 1];
             snakePart.px = px;
             snakePart.py = py;
