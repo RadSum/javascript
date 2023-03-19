@@ -66,9 +66,6 @@ class SnakeHead extends SnakePart {
     }
 }
 
-let direction: Direction = "right";
-let lastDirection: Direction;
-
 document.addEventListener("keydown", event => {
     switch(event.key) {
         case "ArrowUp":
@@ -108,6 +105,8 @@ document.addEventListener("keydown", event => {
     }
 });
 
+let direction: Direction = "right";
+let lastDirection: Direction;
 let snakeHead = new SnakeHead(Math.floor(canvas.width/5), Math.floor(canvas.height/2));
 let snakeArray: SnakePart[] = [snakeHead];
 let foodPosition: FoodPosition = [100, 100];
