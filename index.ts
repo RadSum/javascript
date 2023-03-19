@@ -2,10 +2,13 @@ const SIZE = 10;
 const counter = document.getElementById("score-counter");
 const canvas = <HTMLCanvasElement> document.getElementById("my-canvas");
 const context = canvas.getContext("2d");
+const restartButton = document.getElementById("restart-button");
 const highscoreOutput = document.getElementById("highscore-output");
 let score = 0;
 
 highscoreOutput.textContent = `Current highscore is ${localStorage.getItem("highscore")}`;
+restartButton.onclick = resetGame;
+restartButton.hidden = true;
 
 type Direction = "right" | "left" | "up" | "down" | "stop";
 type FoodPosition = [number, number];
@@ -105,11 +108,13 @@ document.addEventListener("keydown", event => {
     }
 });
 
-const snakeHead = new SnakeHead(Math.floor(canvas.width/5), Math.floor(canvas.height/2));
-const snakeArray: SnakePart[] = [snakeHead];
+let snakeHead = new SnakeHead(Math.floor(canvas.width/5), Math.floor(canvas.height/2));
+let snakeArray: SnakePart[] = [snakeHead];
 let foodPosition: FoodPosition = [100, 100];
 
-const interval = setInterval(() => {
+let mainInterval = setInterval(snakeGame, 75);
+
+function snakeGame() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawFood(foodPosition);
     
@@ -145,7 +150,8 @@ const interval = setInterval(() => {
     
             if (snakePart.checkBorderCollision() || snakePart.checkSelfCollision()) {
                 counter.textContent = `You lost. Your score was ${score}`;
-                clearInterval(interval);
+                restartButton.hidden = false;
+                clearInterval(mainInterval);
                 const highscore = localStorage.getItem("highscore");
                 if (+highscore < score) {
                     localStorage.setItem("highscore", String(score));
@@ -159,7 +165,20 @@ const interval = setInterval(() => {
             snakePart.py = py;
         }
     });
-}, 75);
+}
+
+function resetGame() {
+    restartButton.hidden = true;
+    score = 0;
+    counter.textContent = String(score);
+    snakeHead = new SnakeHead(Math.floor(canvas.width/5), Math.floor(canvas.height/2)); 
+    snakeArray = [snakeHead];
+    foodPosition = [100, 100];
+    direction = "right";
+    lastDirection = undefined;
+
+    mainInterval = setInterval(snakeGame, 75);
+}
 
 function drawSnakePart(snakePart: SnakePart) {
     context.fillStyle = "#000000";
