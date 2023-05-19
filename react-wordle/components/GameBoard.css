@@ -1,0 +1,31 @@
+#game-board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.field {
+    width: 40px;
+    height: 40px;
+    margin: 4px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+.right {
+    background-color: green;
+}
+
+.almost-right {
+    background-color: yellow;
+}
