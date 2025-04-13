@@ -1,3 +1,10 @@
-index.html obsahuje html stranky pro snaka
-index.js je javascriptova verze snaka
-index.ts obsahuje snaka prepsaneho v typescriptu
+# Javascript projekty
+
+## Snake-js 
+Hra Snake napsána v raw Javascriptu.
+
+## React-todos
+Základní todo aplikace.
+
+## React-wordle
+Kopie známé hry Wordle.
